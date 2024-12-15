@@ -95,11 +95,11 @@ def reiniciar_juego():
     all_sprite_list.empty()
 
     # Colocar las fichas en sus posiciones iniciales
-    colocar_fichas(negro, 0)  # Jugador 1 (negro)
-    colocar_fichas(blanco, 3)  # Jugador 2 (blanco)
+    colocar_fichas(negro, 0)  
+    colocar_fichas(blanco, 3)  
     
-    turno = 'negro'  # El turno inicial es el de las negras
-    numero_turno = 1  # Resetear el contador de turnos
+    turno = 'negro'  
+    numero_turno = 1  
     
   
 
@@ -126,14 +126,14 @@ def jugadas_posibles(ficha):
     return jugadas
 
 
-# Función de Minimax (evaluación avanzada)
+# Función de Minimax
 def minimax():
     mejores_jugadas = []
-    mejor_puntaje = -float('inf')  # Comenzamos con el peor puntaje posible
+    mejor_puntaje = -float('inf')  # Comenzar con el peor puntaje posible
 
-    # Evaluar todas las fichas de la IA (negras)
+    # Evaluar todas las fichas de la IA 
     for ficha in all_sprite_list:
-        if ficha.color == negro:  # Solo para las fichas negras
+        if ficha.color == negro:  
             # Primero, verificamos si hay alguna jugada de captura
             for dx, dy in [(-2, -2), (2, -2), (-2, 2), (2, 2)]:
                 nueva_columna = ficha.columna + dx
@@ -161,24 +161,19 @@ def minimax():
     if mejores_jugadas:
         # Seleccionar la jugada con el mejor puntaje
         mejor_jugada = max(mejores_jugadas, key=lambda x: x[3])  # Escoge la jugada con el puntaje más alto
-        return mejor_jugada[1], mejor_jugada[2]  # Devuelve la columna y fila de la mejor jugada
+        return mejor_jugada[1], mejor_jugada[2]  # Devuelve coordenada del tablero
 
     return None
 
-
-
-
-
 sound = pygame.mixer.Sound("movimiento.mp3")
 pygame.mixer.music.load("ost.mp3")
-
-pygame.mixer.music.play()
+pygame.mixer.music.play(10)
 
 # Bucle principal
 start = True
-inicio_espera = pygame.time.get_ticks()  # Tiempo de inicio de espera
+inicio_espera = pygame.time.get_ticks()  
 while start:
-    # Esperar 3 segundos antes de que la IA se mueva
+    # Esperar 3 segundos antes de iniciar el juego
     if pygame.time.get_ticks() - inicio_espera < 1000:
         screen.fill((255, 255, 255))
         tablero.dibujar_grid(screen)
@@ -249,13 +244,13 @@ while start:
 
             victoria_detectada = True  # Marcar que ya se detectó un ganador
 
-    # Verificar si es empate después de 32 turnos
-    if numero_turno > 63 and not ganador:
+    # Verificar si es empate después de 64 turnos
+    if numero_turno > 64 and not ganador:
         empates += 1
         ganador = "¡Empate!"
         victoria_detectada = True
 
-    # Movimiento de la IA (solo en su turno)
+    # Movimiento de la IA 
     if turno == 'negro' and not victoria_detectada:
         jugada = minimax()
         if jugada:
